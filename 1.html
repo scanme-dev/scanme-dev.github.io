@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Map View</title>
+    <style>
+      #map {
+        height: 300px;
+        width: 75%;
+        border: 10px solid rgb(119, 68, 68);
+        color: linear-gradient(to bottom right, #ff3cac, #562b7c, #2b86c5);
+        margin-left: 10%
+
+      }
+      .core1 {
+        margin-left: 40%;
+      }
+
+    </style>
+  </head>
+  <body>
+    <h2>Your Personal Has Been Detected at following Location</h2>
+    <div style="border:solid; margin:10px">
+    <div class="core1">
+    <h3 style="margine-left 10px ;">Device  : Ipad</h3>
+    <h3>Image :</h3>
+    <img src="https://m.media-amazon.com/images/W/IMAGERENDERING_521856-T1/images/I/71qzgEZgSIL._SX522_.jpg" height="200px" width="200px">
+    <h3>Owner : Atharva Atoley</h3>
+    <h3>Contact Number:</h3>
+    <button>Request More info</button>
+    <h3>Address:</h3>
+    <button>Request More info</button> 
+    <div> . 
+
+
+
+        .
+    </div>
+    </div>
+</div>
+    <div id="map" size="250px">
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDWu6_Io9xA1oerfOxE77YAv31etN4u3Dw"></script>
+    </div>
+    <script>
+      function showPosition(position) {
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
+        const location = new google.maps.LatLng(18.820610, 73.271415);
+        const map = new google.maps.Map(document.getElementById('map'), {
+          center: location,
+          zoom: 15
+        });
+        const marker = new google.maps.Marker({
+          position: location,
+          map: map
+        });
+      }
+      function showError(error) {
+        document.querySelector('div#map').innerHTML = `Error retrieving location: ${error.message}`;
+      }
+      function getLocation() {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(showPosition, showError);
+        } else {
+          document.querySelector('div#map').innerHTML = "Geolocation is not supported by this browser.";
+        }
+      }
+      document.addEventListener("DOMContentLoaded", function() {
+        getLocation();
+      });
+    </script>
+  </body>
+</html>
