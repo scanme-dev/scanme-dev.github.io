@@ -4,48 +4,72 @@
     <meta charset="utf-8">
     <title>Map View</title>
     <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+      }
+      h2 {
+        margin: 20px;
+        text-align: center;
+        color: #444444;
+      }
       #map {
         height: 300px;
         width: 75%;
         border: 10px solid rgb(119, 68, 68);
-        color: linear-gradient(to bottom right, #ff3cac, #562b7c, #2b86c5);
-        margin-left: 10%
-
+        margin: 20px 10% 20px 10%;
       }
       .core1 {
-        margin-left: 40%;
+        margin: 0 auto;
+        max-width: 600px;
+        background-color: #ffffff;
+        border: 1px solid #cccccc;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px #888888;
+        padding: 20px;
+        text-align: center;
       }
-
+      .core1 h3 {
+        color: #444444;
+      }
+      .core1 img {
+        margin: 20px;
+        border: 1px solid #cccccc;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px #888888;
+      }
+      button {
+        background-color: #0066cc;
+        color: #ffffff;
+        border: none;
+        border-radius: 5px;
+        padding: 5px 10px;
+        margin: 5px;
+        cursor: pointer;
+      }
+      button:hover {
+        background-color: #004080;
+      }
     </style>
   </head>
   <body>
-    <h2>Your Personal Has Been Detected at following Location</h2>
-    <div style="border:solid; margin:10px">
+    <h2>Your Personal Has Been Detected at Following Location</h2>
     <div class="core1">
-    <h3 style="margine-left 10px ;">Device  : Ipad</h3>
-    <h3>Image :</h3>
-    <img src="https://m.media-amazon.com/images/W/IMAGERENDERING_521856-T1/images/I/71qzgEZgSIL._SX522_.jpg" height="200px" width="200px">
-    <h3>Owner : Atharva Atoley</h3>
-    <h3>Contact Number:</h3>
-    <button>Request More info</button>
-    <h3>Address:</h3>
-    <button>Request More info</button> 
-    <div> . 
-
-
-
-        .
+      <h3>Device: iPad</h3>
+      <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDWu6_Io9xA1oerfOxE77YAv31etN4u3Dw"></script>
+      <img src="https://m.media-amazon.com/images/W/IMAGERENDERING_521856-T1/images/I/71qzgEZgSIL._SX522_.jpg" height="200px" width="200px">
+      <h3>Owner: Atharva Atoley</h3>
+      <h3>Contact Number:</h3>
+      <button>Request More Info</button>
+      <h3>Address:</h3>
+      <button>Request More Info</button>
     </div>
-    </div>
-</div>
-    <div id="map" size="250px">
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDWu6_Io9xA1oerfOxE77YAv31etN4u3Dw"></script>
-    </div>
+    <div id="map"></div>
     <script>
       function showPosition(position) {
         const latitude = position.coords.latitude;
         const longitude = position.coords.longitude;
-        const location = new google.maps.LatLng(18.820610, 73.271415);
+        const location = new google.maps.LatLng(latitude, longitude);
         const map = new google.maps.Map(document.getElementById('map'), {
           center: location,
           zoom: 15
