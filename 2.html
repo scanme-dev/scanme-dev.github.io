@@ -1,69 +1,101 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>Map View</title>
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        background-color: #f0f0f0;
-      }
-      h2 {
-        margin: 20px;
-        text-align: center;
-        color: #444444;
-      }
-      #map {
-        height: 300px;
-        width: 75%;
-        border: 10px solid rgb(119, 68, 68);
-        margin: 20px 10% 20px 10%;
-      }
-      .core1 {
-        margin: 0 auto;
-        max-width: 600px;
-        background-color: #ffffff;
-        border: 1px solid #cccccc;
-        border-radius: 10px;
-        box-shadow: 0px 0px 10px #888888;
-        padding: 20px;
-        text-align: center;
-      }
-      .core1 h3 {
-        color: #444444;
-      }
-      .core1 img {
-        margin: 20px;
-        border: 1px solid #cccccc;
-        border-radius: 10px;
-        box-shadow: 0px 0px 10px #888888;
-      }
-      button {
-        background-color: #0066cc;
-        color: #ffffff;
-        border: none;
-        border-radius: 5px;
-        padding: 5px 10px;
-        margin: 5px;
-        cursor: pointer;
-      }
-      button:hover {
-        background-color: #004080;
-      }
-    </style>
-  </head>
-  <body>
-    <h2>Welcom Atharva !</h2>
-    <div class="core1">
-      <h3>Device: iPad</h3>
-      <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDWu6_Io9xA1oerfOxE77YAv31etN4u3Dw"></script>
-      <img src="https://m.media-amazon.com/images/W/IMAGERENDERING_521856-T1/images/I/71qzgEZgSIL._SX522_.jpg" height="200px" width="200px">
-      <h3>Owner: Atharva Atoley</h3>
-      <h3>Contact Number:</h3>
-      <button onclick="location.href = 'https://scanme-dev.github.io/3.html';">Request More Info</button>
-      <h3>Address:</h3>
-      <button>Request More Info</button>
-    </div>
+<head>
+  <meta charset="utf-8">
+  <title>Map View</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+    }
+    h2 {
+      margin: 20px;
+      text-align: center;
+      color: #444444;
+    }
+    #map {
+      height: 300px;
+      width: 75%;
+      border: 10px solid rgb(119, 68, 68);
+      margin: 20px 10% 20px 10%;
+    }
+    .core1 {
+      margin: 0 auto;
+      max-width: 600px;
+      background-color: #ffffff;
+      border: 1px solid #cccccc;
+      border-radius: 10px;
+      box-shadow: 0px 0px 10px #888888;
+      padding: 20px;
+      text-align: center;
+    }
+    .core1 h3 {
+      color: #444444;
+    }
+    .core1 img {
+      margin: 20px;
+      border: 1px solid #cccccc;
+      border-radius: 10px;
+      box-shadow: 0px 0px 10px #888888;
+    }
+    button {
+      background-color: #0066cc;
+      color: #ffffff;
+      border: none;
+      border-radius: 5px;
+      padding: 5px 10px;
+      margin: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #004080;
+    }
+  </style>
+</head>
+<body>
+  <h2>Welcome Atharva!</h2>
+  <div class="core1">
+    <h3>Device: iPad</h3>
+    <div id="map"></div> <!-- added div for map -->
+    <img src="https://m.media-amazon.com/images/W/IMAGERENDERING_521856-T1/images/I/71qzgEZgSIL._SX522_.jpg" height="200px" width="200px">
+    <h3>Owner: Atharva Atoley</h3>
+    <h3>Contact Number: <span id="contactNumber">N/A</span></h3> <!-- added id for contact number -->
+    <button onclick="sendLocation()">Request More Info</button>
+    <h3>Address: <span id="address">N/A</span></h3> <!-- added id for address -->
+    <button onclick="requestAddress()">Request More Info</button> <!-- added onclick event for address -->
+  </div>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDK8JFAHO59LzbU-s1QcBm33XkH1JVBBAs&callback=initMap" async defer></script> <!-- replaced YOUR_API_KEY with your actual API key and added callback function -->
+  <script>
+    var map; // added map variable
+
+    function initMap() {
+      map = new google.maps.Map(document.getElementById('map'), { // created map instance
+        center: {lat: -34.397, lng: 150.644},
+        zoom: 8
+      });
+    }
+
+    function sendLocation() {
+    navigator.geolocation.getCurrentPosition(function(position) {
+    var latitude = position.coords.latitude;
+    var longitude = position.coords.longitude;
     
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "http://192.168.43.98:5000/newscan", true);
+    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8"); // set request header
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+        var response = JSON.parse(xhr.responseText);
+        document.getElementById('contactNumber').innerText = response.contactNumber; // update contact number
+      }
+    };
+    var data = JSON.stringify({latitude: latitude, longitude: longitude});
+    xhr.send(data);
+  }, function(error) {
+    console.error(error);
+  });
+}
+
+</script>
   </body>
 </html>
